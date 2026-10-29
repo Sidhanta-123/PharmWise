@@ -9,4 +9,8 @@ matplotlib
 seaborn
 dill
 ipykernel
+fastapi 
+uvicorn 
+requests 
+pydantic
 -e .

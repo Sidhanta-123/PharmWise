@@ -21,12 +21,12 @@ class ModelTrainer:
     def initiate_model_trainer(self, df: pd.DataFrame, mfg_stats: pd.DataFrame, X_scaled):
         logging.info("Entered the Model Trainer component")
         try:
-            # 1. Fit the optimal Log-Transformed K-Means model (K=3)
+            # Fit the optimal Log-Transformed K-Means model (K=3)
             kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
             mfg_stats['cluster'] = kmeans.fit_predict(X_scaled)
             logging.info("Fitted K-Means (K=3) clustering model on scaled manufacturer features")
 
-            # 2. Calculate Unsupervised Validation Metrics
+            #  Calculate Unsupervised Validation Metrics
             sil_score = silhouette_score(X_scaled, mfg_stats['cluster'])
             db_score = davies_bouldin_score(X_scaled, mfg_stats['cluster'])
             ch_score = calinski_harabasz_score(X_scaled, mfg_stats['cluster'])
@@ -36,7 +36,7 @@ class ModelTrainer:
                 f"Davies-Bouldin: {db_score:.4f}, Calinski-Harabasz: {ch_score:.2f}"
             )
 
-            # 3. Map clusters to logical Trust Tiers based on production volume
+            # Map clusters to logical Trust Tiers based on production volume
             cluster_order = (
                 mfg_stats.groupby('cluster')['drug_count']
                 .mean()
@@ -50,7 +50,7 @@ class ModelTrainer:
             }
             mfg_stats['trust_tier'] = mfg_stats['cluster'].map(tier_map)
 
-            # 4. Merge Trust Tiers back into the main medicine dataset
+            # Merge Trust Tiers back into the main medicine dataset
             if 'trust_tier' in df.columns:
                 df = df.drop(columns=['trust_tier'])
                 
@@ -60,7 +60,7 @@ class ModelTrainer:
                 how='left'
             )
 
-            # 5. Save the tiered dataset and trained K-Means model artifact
+            # Save the tiered dataset and trained K-Means model artifact
             os.makedirs(os.path.dirname(self.model_trainer_config.tiered_data_file_path), exist_ok=True)
             df_tiered.to_csv(self.model_trainer_config.tiered_data_file_path, index=False)
             logging.info(f"Saved tiered dataset to {self.model_trainer_config.tiered_data_file_path}")

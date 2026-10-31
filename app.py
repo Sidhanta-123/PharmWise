@@ -89,9 +89,9 @@ tab1, tab2, tab3 = st.tabs([
     "📊 K-Means Trust Tier Analytics"
 ])
 
-# ==========================================
+
 # TAB 1: BASKET OPTIMIZER & CLINICAL SAFETY
-# ==========================================
+
 with tab1:
     st.subheader("Build Your Prescription Basket")
 
@@ -221,9 +221,8 @@ with tab1:
                 mime="text/csv"
             )
 
-# ==========================================
+
 # TAB 2: SINGLE-DRUG & SALT EXPLORER
-# ==========================================
 with tab2:
     st.subheader("Search by Active Salt or Compare Brand Generics")
 
@@ -328,9 +327,8 @@ with tab2:
         else:
             st.info("No exact-dosage alternatives found in the catalog.")
 
-# ==========================================
 # TAB 3: K-MEANS TRUST TIER ANALYTICS
-# ==========================================
+
 with tab3:
     st.subheader("Unsupervised Manufacturer Clustering Overview (Log-K-Means, K=3)")
 

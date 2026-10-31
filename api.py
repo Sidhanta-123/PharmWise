@@ -58,7 +58,6 @@ def analyze_basket(request: BasketRequest):
         clinical_interactions = predictor.detect_clinical_interactions(basket_df)
         opt_df, orig_cost, new_cost, savings = predictor.optimize_basket_cost(basket_df, df_all)
 
-        # Fix JSON NaN serialization by filling missing values with empty strings
         safe_basket = basket_df.fillna("")
         safe_opt = opt_df.fillna("")
 
